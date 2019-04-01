@@ -1,6 +1,6 @@
 # stm32h7_freertos
 
-开发板：STM32H743 Nucleo-144
+开发板：STM32H743 Nucleo-144 8M晶振
 
 1、移植 FreeRTOS V10.2，测试OK.
 
