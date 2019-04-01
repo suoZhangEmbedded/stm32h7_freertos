@@ -3,21 +3,15 @@
 *
 *	模块名称 : 主程序模块
 *	文件名称 : main.c
-*	版    本 : V1.0
-*	说    明 : 跑马灯。
-*              实验目的：
-*                1. 学习H7平台的跑马灯实现。
-*              实验内容：
-*                1、启动一个自动重装软件定时器，每100ms翻转一次LED1和LED2。
-*                2、再启动一个自动重装软件定时器，每500ms翻转一次LED3和LED4。
-*              注意事项：
-*                1. 本实验推荐使用串口软件SecureCRT查看打印信息，波特率115200，数据位8，奇偶校验位无，停止位1。
-*                2. 务必将编辑器的缩进参数和TAB设置为4来阅读本文件，要不代码显示不整齐。
+*	版    本 : V1.1
+*	说    明 : 
 *
 *	修改记录 :
 *		版本号   日期         作者        说明
 *		V1.0    2018-12-12   Eric2013     1. CMSIS软包版本 V5.4.0
-*                                         2. HAL库版本 V1.3.0
+*                                     2. HAL库版本 V1.3.0
+*
+*   V1.1    2019-04-01   suozhang     1. add FreeRTOS V10.20
 *
 *	Copyright (C), 2018-2030, 安富莱电子 www.armfly.com
 *
@@ -25,14 +19,16 @@
 */	
 #include "bsp.h"			/* 底层硬件驱动 */
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "croutine.h"
+#include "semphr.h"
+#include "event_groups.h"
 
 
-/* 定义例程名和例程发布日期 */
-#define EXAMPLE_NAME	"V7-跑马灯"
-#define EXAMPLE_DATE	"2018-12-12"
-#define DEMO_VER		"1.0"
-
-static void PrintfLogo(void);
+static void vTaskLED (void *pvParameters);
+static TaskHandle_t xHandleTaskLED  = NULL;
 
 /*
 *********************************************************************************************************
@@ -47,55 +43,50 @@ int main(void)
 
 	bsp_Init();		/* 硬件初始化 */
 	
-	PrintfLogo();	/* 打印例程名称和版本等信息 */
-
-	/* 先做个LED1的亮灭显示 */
-	bsp_LedOn(0);
-
-	while(1);
+	xTaskCreate( vTaskLED, "vTaskLED", 512, NULL, 3, &xHandleTaskLED );
+	
+	/* 启动调度，开始执行任务 */
+	vTaskStartScheduler();
 }
 
 
 /*
 *********************************************************************************************************
-*	函 数 名: PrintfLogo
-*	功能说明: 打印例程名称和例程发布日期, 接上串口线后，打开PC机的超级终端软件可以观察结果
-*	形    参: 无
+*	函 数 名: vTaskLED
+*	功能说明: KED闪烁	
+*	形    参: pvParameters 是在创建该任务时传递的形参
 *	返 回 值: 无
+* 优 先 级: 2  
 *********************************************************************************************************
 */
-static void PrintfLogo(void)
+static void vTaskLED(void *pvParameters)
 {
-	printf("*************************************************************\n\r");
 	
-	/* 检测CPU ID */
+	uint32_t ulNotifiedValue     = 0;
+	uint32_t ledToggleIntervalMs = 1000;
+
+	for(;;)
 	{
-		uint32_t CPU_Sn0, CPU_Sn1, CPU_Sn2;
 		
-		CPU_Sn0 = *(__IO uint32_t*)(0x1FF1E800);
-		CPU_Sn1 = *(__IO uint32_t*)(0x1FF1E800 + 4);
-		CPU_Sn2 = *(__IO uint32_t*)(0x1FF1E800 + 8);
+		/*
+			* 参数 0x00      表示使用通知前不清除任务的通知值位，
+			* 参数 ULONG_MAX 表示函数xTaskNotifyWait()退出前将任务通知值设置为0
+			*/
+	 if( pdPASS == xTaskNotifyWait( 0x00, 0xffffffffUL, &ulNotifiedValue, ledToggleIntervalMs ) )
+	 {
+		 if( ulNotifiedValue < 2000 )
+			ledToggleIntervalMs  = ulNotifiedValue;
+		 else
+			 ledToggleIntervalMs = 1000 / portTICK_PERIOD_MS;
+	 }
 
-		printf("\r\nCPU : STM32H743XIH6, BGA240, 主频: %dMHz\r\n", SystemCoreClock / 1000000);
-		printf("UID = %08X %08X %08X\n\r", CPU_Sn2, CPU_Sn1, CPU_Sn0);
+		bsp_LedToggle(1);
+
+		EventRecord2( 1, 0x55, 0xAA );
+	 
+	 printf( "SystemCoreClock:%u,systick:%u,system heap:%u.\r\n", SystemCoreClock, xTaskGetTickCount(), xPortGetFreeHeapSize() );
+
 	}
-
-	printf("\n\r");
-	printf("*************************************************************\n\r");
-	printf("* 例程名称   : %s\r\n", EXAMPLE_NAME);	/* 打印例程名称 */
-	printf("* 例程版本   : %s\r\n", DEMO_VER);		/* 打印例程版本 */
-	printf("* 发布日期   : %s\r\n", EXAMPLE_DATE);	/* 打印例程日期 */
-
-	/* 打印ST的HAL库版本 */
-	printf("* HAL库版本  : V1.3.0 (STM32H7xx HAL Driver)\r\n");
-	printf("* \r\n");	/* 打印一行空格 */
-	printf("* QQ    : 1295744630 \r\n");
-	printf("* 旺旺  : armfly\r\n");
-	printf("* Email : armfly@qq.com \r\n");
-	printf("* 微信公众号: armfly_com \r\n");
-	printf("* 淘宝店: armfly.taobao.com\r\n");
-	printf("* Copyright www.armfly.com 安富莱电子\r\n");
-	printf("*************************************************************\n\r");
 }
 
 /***************************** 安富莱电子 www.armfly.com (END OF FILE) *********************************/

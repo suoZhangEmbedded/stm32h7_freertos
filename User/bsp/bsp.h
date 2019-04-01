@@ -45,7 +45,7 @@
 #define ERROR_HANDLER()		Error_Handler(__FILE__, __LINE__);
 
 /* Ä¬ÈÏÊÇ¹Ø±Õ×´Ì¬ */
-#define  Enable_EventRecorder  0
+#define  Enable_EventRecorder  1
 
 #if Enable_EventRecorder == 1
 	#include "EventRecorder.h"
