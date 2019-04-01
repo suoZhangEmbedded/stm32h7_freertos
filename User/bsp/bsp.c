@@ -70,7 +70,7 @@ void bsp_Init(void)
 #endif
 
 	bsp_InitUart();		/* 初始化串口 */
-	bsp_InitExtIO();	/* 初始化FMC总线74HC574扩展IO. 必须在 bsp_InitLed()前执行 */	
+
 	bsp_InitLed();    	/* 初始化LED */	
 }
 
