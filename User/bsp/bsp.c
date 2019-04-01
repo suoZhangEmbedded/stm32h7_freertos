@@ -68,9 +68,7 @@ void bsp_Init(void)
 	EventRecorderInitialize(EventRecordAll, 1U);
 	EventRecorderStart();
 #endif
-	
-	bsp_InitKey();    	/* 按键初始化，要放在滴答定时器之前，因为按钮检测是通过滴答定时器扫描 */
-	bsp_InitTimer();  	/* 初始化滴答定时器 */
+
 	bsp_InitUart();		/* 初始化串口 */
 	bsp_InitExtIO();	/* 初始化FMC总线74HC574扩展IO. 必须在 bsp_InitLed()前执行 */	
 	bsp_InitLed();    	/* 初始化LED */	
