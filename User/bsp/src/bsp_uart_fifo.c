@@ -51,17 +51,17 @@
 #define USART2_RX_PIN                    GPIO_PIN_3
 #define USART2_RX_AF                     GPIO_AF7_USART2
 
-/* 串口3的GPIO --- PB10 PB11  RS485 */
+/* 串口3的GPIO --- PD8 PD9 STMicroelectronics STLink Virtual COM Port suozhang */
 #define USART3_CLK_ENABLE()              __HAL_RCC_USART3_CLK_ENABLE()
 
-#define USART3_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
-#define USART3_TX_GPIO_PORT              GPIOB
-#define USART3_TX_PIN                    GPIO_PIN_10
+#define USART3_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOD_CLK_ENABLE()
+#define USART3_TX_GPIO_PORT              GPIOD
+#define USART3_TX_PIN                    GPIO_PIN_8
 #define USART3_TX_AF                     GPIO_AF7_USART3
 
-#define USART3_RX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
-#define USART3_RX_GPIO_PORT              GPIOB
-#define USART3_RX_PIN                    GPIO_PIN_11
+#define USART3_RX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOD_CLK_ENABLE()
+#define USART3_RX_GPIO_PORT              GPIOD
+#define USART3_RX_PIN                    GPIO_PIN_9
 #define USART3_RX_AF                     GPIO_AF7_USART3
 
 /* 串口4的GPIO --- PC10 PC11  被SD卡占用 */
@@ -1413,6 +1413,57 @@ void UART8_IRQHandler(void)
 }
 #endif
 
+/*
+*********************************************************************************************************
+*	函 数 名: fputc
+*	功能说明: 重定义putc函数，这样可以使用printf函数从串口1打印输出
+*	形    参: 无
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+int fputc(int ch, FILE *f)
+{
+#if 1	/* 将需要printf的字符通过串口中断FIFO发送出去，printf函数会立即返回 */
+	comSendChar(COM3, ch);
+	
+	return ch;
+#else	/* 采用阻塞方式发送每个字符,等待数据发送完毕 */
+	/* 写一个字节到USART1 */
+	USART1->TDR = ch;
+	
+	/* 等待发送结束 */
+	while((USART1->ISR & USART_ISR_TC) == 0)
+	{}
+	
+	return ch;
+#endif
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: fgetc
+*	功能说明: 重定义getc函数，这样可以使用getchar函数从串口1输入数据
+*	形    参: 无
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+int fgetc(FILE *f)
+{
+
+#if 1	/* 从串口接收FIFO中取1个数据, 只有取到数据才返回 */
+	uint8_t ucData;
+
+	while(comGetChar(COM1, &ucData) == 0);
+
+	return ucData;
+#else
+	/* 等待接收到数据 */
+	while((USART1->ISR & USART_ISR_RXNE) == 0)
+	{}
+
+	return (int)USART1->RDR;
+#endif
+}
 
 
 /***************************** 安富莱电子 www.armfly.com (END OF FILE) *********************************/

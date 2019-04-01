@@ -82,9 +82,7 @@ static void vTaskLED(void *pvParameters)
 
 		bsp_LedToggle(1);
 
-		EventRecord2( 1, 0x55, 0xAA );
-	 
-	 printf( "SystemCoreClock:%u,systick:%u,system heap:%u.\r\n", SystemCoreClock, xTaskGetTickCount(), xPortGetFreeHeapSize() );
+		printf( "SystemCoreClock:%u,systick:%u,system heap:%u.\r\n", SystemCoreClock, xTaskGetTickCount(), xPortGetFreeHeapSize() );
 
 	}
 }

@@ -38,9 +38,7 @@ static void MPU_Config(void);
 */
 void bsp_Init(void)
 {
-    /* 配置MPU */
-	MPU_Config();
-	
+
 	/* 使能L1 Cache */
 	CPU_CACHE_Enable();
 
@@ -54,7 +52,7 @@ void bsp_Init(void)
 	/* 
        配置系统时钟到400MHz
        - 切换使用HSE。
-       - 此函数会更新全局变量SystemCoreClock，并重新配置HAL_InitTick。
+       - 此函数会更新全局变量SystemCoreClock，并重新配置 HAL_InitTick。
     */
 	SystemClock_Config();
 
@@ -86,7 +84,7 @@ void bsp_Init(void)
 *            	D2 APB1 Prescaler              = 2 (APB1 Clock  100MHz)
 *            	D2 APB2 Prescaler              = 2 (APB2 Clock  100MHz)
 *            	D3 APB4 Prescaler              = 2 (APB4 Clock  100MHz)
-*            	HSE Frequency(Hz)              = 25000000
+*            	HSE Frequency(Hz)              = 8000000
 *           	PLL_M                          = 5
 *            	PLL_N                          = 160
 *            	PLL_P                          = 2
@@ -124,8 +122,8 @@ static void SystemClock_Config(void)
 	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
 	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
 		
-	RCC_OscInitStruct.PLL.PLLM = 5;
-	RCC_OscInitStruct.PLL.PLLN = 160;
+	RCC_OscInitStruct.PLL.PLLM = 4;
+	RCC_OscInitStruct.PLL.PLLN = 400;
 	RCC_OscInitStruct.PLL.PLLP = 2;
 	RCC_OscInitStruct.PLL.PLLR = 2;
 	RCC_OscInitStruct.PLL.PLLQ = 4;		
