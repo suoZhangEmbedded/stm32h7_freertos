@@ -26,6 +26,19 @@
 #include "semphr.h"
 #include "event_groups.h"
 
+/**
+ * Log default configuration for EasyLogger.
+ * NOTE: Must defined before including the <elog.h>
+ */
+#if !defined(LOG_TAG)
+#define LOG_TAG                    "main_test_tag:"
+#endif
+#undef LOG_LVL
+#if defined(XX_LOG_LVL)
+    #define LOG_LVL                    XX_LOG_LVL
+#endif
+
+#include "elog.h"
 
 static void vTaskLED (void *pvParameters);
 static TaskHandle_t xHandleTaskLED  = NULL;
@@ -42,6 +55,25 @@ int main(void)
 {
 
 	bsp_Init();		/* Ó²¼þ³õÊ¼»¯ */
+	
+	/* initialize EasyLogger */
+	if (elog_init() == ELOG_NO_ERR)
+	{
+			/* set enabled format */
+			elog_set_fmt(ELOG_LVL_ASSERT, ELOG_FMT_ALL & ~ELOG_FMT_P_INFO);
+			elog_set_fmt(ELOG_LVL_ERROR, ELOG_FMT_ALL );
+			elog_set_fmt(ELOG_LVL_WARN, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+			elog_set_fmt(ELOG_LVL_INFO, ELOG_FMT_TAG | ELOG_FMT_TIME);
+			elog_set_fmt(ELOG_LVL_DEBUG, ELOG_FMT_ALL & ~(ELOG_FMT_FUNC | ELOG_FMT_P_INFO));
+			elog_set_fmt(ELOG_LVL_VERBOSE, ELOG_FMT_ALL & ~(ELOG_FMT_FUNC | ELOG_FMT_P_INFO));
+		
+			elog_set_text_color_enabled( true );
+		
+			elog_buf_enabled( false );
+		
+			/* start EasyLogger */
+			elog_start();
+	}
 	
 	xTaskCreate( vTaskLED, "vTaskLED", 512, NULL, 3, &xHandleTaskLED );
 	
@@ -82,7 +114,7 @@ static void vTaskLED(void *pvParameters)
 
 		bsp_LedToggle(1);
 
-		printf( "SystemCoreClock:%u,systick:%u,system heap:%u.\r\n", SystemCoreClock, xTaskGetTickCount(), xPortGetFreeHeapSize() );
+		log_i( "SystemCoreClock:%u,system heap:%u.", SystemCoreClock,xPortGetFreeHeapSize() );
 
 	}
 }

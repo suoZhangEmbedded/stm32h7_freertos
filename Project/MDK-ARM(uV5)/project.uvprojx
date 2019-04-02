@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER, STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32H7xx\Include;..\..\Libraries\STM32H7xx_HAL_Driver\Inc;..\..\User\bsp\inc;..\..\User;..\..\User\bsp;..\..\User\FreeRTOS\include;..\..\User\FreeRTOS\portable\RVDS\ARM_CM7\r0p1;..\..\User\lwip\src\include;..\..\User\lwip\src\port;..\..\User\segger_rtt</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32H7xx\Include;..\..\Libraries\STM32H7xx_HAL_Driver\Inc;..\..\User\bsp\inc;..\..\User;..\..\User\bsp;..\..\User\FreeRTOS\include;..\..\User\FreeRTOS\portable\RVDS\ARM_CM7\r0p1;..\..\User\lwip\src\include;..\..\User\lwip\src\port;..\..\User\segger_rtt;..\..\User\easylogger\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -892,6 +892,36 @@
               <FileName>sys_arch.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\lwip\src\port\sys_arch.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>easylogger</GroupName>
+          <Files>
+            <File>
+              <FileName>elog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\easylogger\src\elog.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_async.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\easylogger\src\elog_async.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_buf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\easylogger\src\elog_buf.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\easylogger\src\elog_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\easylogger\port\elog_port.c</FilePath>
             </File>
           </Files>
         </Group>
