@@ -12,4 +12,4 @@
 
 4、移植 easylogger 功能， 进行log 日志 有颜色的 输出，打开 j-link RTT Viewer 软件 即可看到颜色输出
 
-	easylogger:https://github.com/armink/EasyLogger
+easylogger:https://github.com/armink/EasyLogger
