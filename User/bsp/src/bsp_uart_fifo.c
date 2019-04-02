@@ -25,6 +25,8 @@
 
 #include "bsp.h"
 
+#include "SEGGER_RTT.h"
+
 /* 串口1的GPIO  PA9, PA10   RS323 DB9接口 */
 #define USART1_CLK_ENABLE()              __HAL_RCC_USART1_CLK_ENABLE()
 
@@ -1424,7 +1426,10 @@ void UART8_IRQHandler(void)
 int fputc(int ch, FILE *f)
 {
 #if 1	/* 将需要printf的字符通过串口中断FIFO发送出去，printf函数会立即返回 */
-	comSendChar(COM3, ch);
+
+	/* suozhang,printf 重定向给 SEGGER RTT,2019年4月2日14:07:13 */
+	SEGGER_RTT_Write( 0, &ch, 1 ); 
+//	comSendChar(COM3, ch);
 	
 	return ch;
 #else	/* 采用阻塞方式发送每个字符,等待数据发送完毕 */
