@@ -40,8 +40,17 @@
 
 #include "elog.h"
 
+#include "lwip/netif.h"
+#include "lwip/tcpip.h"
+#include "netif_port.h"
+
+#include "tcp_client.h"
+
 static void vTaskLED (void *pvParameters);
-static TaskHandle_t xHandleTaskLED  = NULL;
+static void vTaskLwip(void *pvParameters);
+
+ TaskHandle_t xHandleTaskLED  = NULL;
+ TaskHandle_t xHandleTaskLwip = NULL;
 
 /*
 *********************************************************************************************************
@@ -76,11 +85,62 @@ int main(void)
 	}
 	
 	xTaskCreate( vTaskLED, "vTaskLED", 512, NULL, 3, &xHandleTaskLED );
+	xTaskCreate( vTaskLwip,"Lwip"     ,512, NULL, 2, &xHandleTaskLwip );
 	
 	/* 启动调度，开始执行任务 */
 	vTaskStartScheduler();
 }
 
+
+struct netif gnetif; /* network interface structure */
+
+static void netif_config(void)
+{
+  ip_addr_t ipaddr;
+  ip_addr_t netmask;
+  ip_addr_t gw;
+
+  IP_ADDR4(&ipaddr,192,168,0,11);
+  IP_ADDR4(&netmask,255,255,255,0);
+  IP_ADDR4(&gw,192,168,0,1);
+
+  /* add the network interface */ 
+  netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
+  
+  /*  Registers the default network interface. */
+  netif_set_default(&gnetif);
+	
+	/* Set the link callback function, this function is called on change of link status*/
+  netif_set_link_callback(&gnetif, eth_link_callback);
+
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: vTaskLwip
+*	功能说明: 初始化 ETH,MAC,DMA,GPIO,LWIP,并创建线程用于处理以太网消息
+*	形    参: pvParameters 是在创建该任务时传递的形参
+*	返 回 值: 无
+* 优 先 级: 2  
+*********************************************************************************************************
+*/
+static void vTaskLwip(void *pvParameters)
+{
+
+  /* Create tcp_ip stack thread */
+  tcpip_init(NULL, NULL);
+
+  /* Initilaize the netif */
+  netif_config();
+
+	for(;;)
+	{
+		
+		tcp_client_conn_server_task();
+		
+		vTaskDelay( 2000 / portTICK_PERIOD_MS );
+	}
+}
 
 /*
 *********************************************************************************************************
@@ -114,7 +174,7 @@ static void vTaskLED(void *pvParameters)
 
 		bsp_LedToggle(1);
 
-		log_i( "SystemCoreClock:%u,system heap:%u.", SystemCoreClock,xPortGetFreeHeapSize() );
+//		log_i( "SystemCoreClock:%u,system heap:%u.", SystemCoreClock,xPortGetFreeHeapSize() );
 
 	}
 }

@@ -2,11 +2,11 @@
   ******************************************************************************
   * @file    lwipopts.h
   * @author  MCD Application Team & suozhang
-  * @version V1.1.1
-  * @date    2018年3月29日20:59:15
+  * @version V2.0.0
+  * @date    2019年4月3日15:40:16
   * @brief   lwIP Options Configuration.
-  *          This file is based on Utilities\lwip_v1.4.1\src\include\lwip\opt.h 
-  *          and contains the lwIP configuration for the STM32F4x7 demonstration.
+  *          This file is based on Utilities\lwip_v2.1.2\src\include\lwip\opt.h 
+  *          and contains the lwIP configuration for the STM32H743 demonstration.
   ******************************************************************************
   * @attention
   *
@@ -78,21 +78,21 @@
 
 /* ---------- Debug options ---------- */
 
-//#define LWIP_DEBUG
+#define LWIP_DEBUG
 
-#define LWIP_DBG_TYPES_ON           (LWIP_DBG_ON|LWIP_DBG_TRACE|LWIP_DBG_STATE|LWIP_DBG_FRESH) // LWIP_DBG_HALT 开启将导致 debug while(1)
+#define LWIP_DBG_TYPES_ON           (LWIP_DBG_ON|LWIP_DBG_TRACE|LWIP_DBG_STATE|LWIP_DBG_LEVEL_ALL) // LWIP_DBG_HALT 开启将导致 debug while(1)
 
 #ifdef LWIP_DEBUG
 
-	#define SYS_DEBUG                   LWIP_DBG_TYPES_ON
+	#define SYS_DEBUG                   LWIP_DBG_OFF
 	#define ETHARP_DEBUG                LWIP_DBG_OFF
 	#define PPP_DEBUG                   LWIP_DBG_OFF
-	#define MEM_DEBUG                   LWIP_DBG_TYPES_ON
-	#define MEMP_DEBUG                  LWIP_DBG_TYPES_ON
+	#define MEM_DEBUG                   LWIP_DBG_OFF
+	#define MEMP_DEBUG                  LWIP_DBG_OFF
 	#define PBUF_DEBUG                  LWIP_DBG_OFF
 	#define API_LIB_DEBUG               LWIP_DBG_OFF
 	#define API_MSG_DEBUG               LWIP_DBG_OFF
-	#define TCPIP_DEBUG                 LWIP_DBG_TYPES_ON
+	#define TCPIP_DEBUG                 LWIP_DBG_OFF
 	#define NETIF_DEBUG                 LWIP_DBG_OFF
 	#define SOCKETS_DEBUG               LWIP_DBG_OFF
 	#define DNS_DEBUG                   LWIP_DBG_OFF
@@ -103,7 +103,7 @@
 	#define ICMP_DEBUG                  LWIP_DBG_OFF
 	#define IGMP_DEBUG                  LWIP_DBG_OFF
 	#define UDP_DEBUG                   LWIP_DBG_OFF
-	#define TCP_DEBUG                   LWIP_DBG_TYPES_ON
+	#define TCP_DEBUG                   LWIP_DBG_OFF
 	#define TCP_INPUT_DEBUG             LWIP_DBG_OFF
 	#define TCP_OUTPUT_DEBUG            LWIP_DBG_OFF
 	#define TCP_RTO_DEBUG               LWIP_DBG_OFF
@@ -175,6 +175,9 @@
 a lot of data that needs to be copied, this should be set high. */
 #define MEM_SIZE                (10*1024) /* 应用程序 发送大量数据 需要复制的，这个值应该设置大一点 */
 
+/* Relocate the LwIP RAM heap pointer */
+#define LWIP_RAM_HEAP_POINTER    (0x30044000)
+
 /* MEMP_NUM_PBUF: the number of memp struct pbufs. If the application
    sends a lot of data out of ROM (or other static memory), this
    should be set high. */
@@ -224,6 +227,9 @@ a lot of data that needs to be copied, this should be set high. */
    link level header. */
 	 //#define PBUF_LINK_HLEN              16 /* 暂时不知道 为什么 暂时屏蔽 2018年1月23日13:42:14 */
 
+/* LWIP_SUPPORT_CUSTOM_PBUF == 1: to pass directly MAC Rx buffers to the stack 
+   no copy is needed */
+#define LWIP_SUPPORT_CUSTOM_PBUF      1
 
 /* ---------- TCP options ---------- */
 
@@ -349,8 +355,6 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
 
 
 #define MQTT_DEBUG                  LWIP_DBG_OFF
-
-#define TCP_OUTPUT_DEBUG						LWIP_DBG_OFF
 
 
 /*
