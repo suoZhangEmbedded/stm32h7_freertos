@@ -46,6 +46,8 @@
 
 #include "tcp_client.h"
 
+#include "lwip/apps/lwiperf.h"
+
 static void vTaskLED (void *pvParameters);
 static void vTaskLwip(void *pvParameters);
 
@@ -135,9 +137,13 @@ static void vTaskLwip(void *pvParameters)
 
 	for(;;)
 	{
+	
+		ip_addr_t  perf_server_ip;
 		
-		tcp_client_conn_server_task();
-		
+		IP_ADDR4( &perf_server_ip, 192, 168, 0, 11 ); //≥ı ºªØ perf_server_ip  
+
+		lwiperf_start_tcp_server( &perf_server_ip, 9527, NULL, NULL );
+
 		vTaskDelay( 2000 / portTICK_PERIOD_MS );
 	}
 }

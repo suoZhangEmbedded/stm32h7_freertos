@@ -921,6 +921,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>lwip/apps</GroupName>
+          <Files>
+            <File>
+              <FileName>lwiperf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\lwip\src\apps\lwiperf\lwiperf.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>easylogger</GroupName>
           <Files>
             <File>
