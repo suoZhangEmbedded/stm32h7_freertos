@@ -64,7 +64,7 @@
  * HTTPC_DEBUG: Enable debugging for HTTP client.
  */
 #ifndef HTTPC_DEBUG
-#define HTTPC_DEBUG                 LWIP_DBG_OFF
+#define HTTPC_DEBUG                 LWIP_DBG_ON
 #endif
 
 /** Set this to 1 to keep server name and uri in request state */
@@ -382,6 +382,9 @@ httpc_tcp_poll(void *arg, struct altcp_pcb *pcb)
 static err_t
 httpc_tcp_sent(void *arg, struct altcp_pcb *pcb, u16_t len)
 {
+	
+	printf( "httpc_tcp_sent len: %d.\r\n", len );
+	
   /* nothing to do here for now */
   LWIP_UNUSED_ARG(arg);
   LWIP_UNUSED_ARG(pcb);
@@ -480,6 +483,7 @@ httpc_get_internal_dns(httpc_state_t* req, const char* server_name)
   } else if (err == ERR_INPROGRESS) {
     return ERR_OK;
   }
+
   return err;
 }
 
@@ -518,7 +522,11 @@ httpc_init_connection_common(httpc_state_t **connection, const httpc_connection_
   LWIP_ASSERT("uri != NULL", uri != NULL);
 
   /* get request len */
-  req_len = httpc_create_request_string(settings, server_name, server_port, uri, use_host, NULL, 0);
+	/* suozhang, 2019-4-15 18:19:24 */
+	/* add buff and buff size */
+	/* 发送 get 请求信息不能超过 buff 的大小 */
+	char buff[256] = {0};
+  req_len = httpc_create_request_string(settings, server_name, server_port, uri, use_host, buff, sizeof(buff));
   if ((req_len < 0) || (req_len > 0xFFFF)) {
     return ERR_VAL;
   }

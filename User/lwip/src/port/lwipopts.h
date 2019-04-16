@@ -338,7 +338,8 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
  */
 #define LWIP_SOCKET                     0
 
-
+#define LWIP_DNS                        1
+#define LWIP_RAND() 			((u32_t)rand())
 
 /**
  * LWIP_TCP_KEEPALIVE==1: Enable TCP_KEEPIDLE, TCP_KEEPINTVL and TCP_KEEPCNT
@@ -351,10 +352,6 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
 //保活机制启动后，一共发送5次保活探测包，如果这5个包对方均无回应，则表示连接异常，内核关闭连接，并发送err回调到用户程序
 #define  TCP_KEEPCNT_DEFAULT      5UL  			 
 #define  TCP_MAXIDLE  TCP_KEEPCNT_DEFAULT * TCP_KEEPINTVL_DEFAULT
-
-
-
-#define MQTT_DEBUG                  LWIP_DBG_OFF
 
 
 /*

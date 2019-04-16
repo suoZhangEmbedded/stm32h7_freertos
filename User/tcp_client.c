@@ -41,7 +41,7 @@
 
 extern TaskHandle_t xHandleTaskLED;
 
-#define TCP_SERVER_IP   "192.168.0.22"
+#define TCP_SERVER_IP   "10.2.10.85"
 #define TCP_SERVER_PORT 9527
 
 /* 服务器通信使用权信号量 */
@@ -57,8 +57,6 @@ void tcp_client_conn_server_task( void )
   err_t err;
 	
 	ip_addr_t server_ip;
-	
-
 	
 	u16_t server_port = TCP_SERVER_PORT;				     // 服务器端口号初始化
 

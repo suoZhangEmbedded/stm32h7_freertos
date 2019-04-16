@@ -312,7 +312,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>3</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -391,6 +391,11 @@
               <FileName>tcp_client.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\tcp_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>http_iap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\http_iap.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -917,6 +922,16 @@
               <FileName>lan8742.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\lwip\src\port\lan8742.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lwip/apps</GroupName>
+          <Files>
+            <File>
+              <FileName>http_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\lwip\src\apps\http\http_client.c</FilePath>
             </File>
           </Files>
         </Group>

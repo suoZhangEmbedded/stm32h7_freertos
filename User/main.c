@@ -26,6 +26,8 @@
 #include "semphr.h"
 #include "event_groups.h"
 
+#include "lwip/dns.h"
+
 /**
  * Log default configuration for EasyLogger.
  * NOTE: Must defined before including the <elog.h>
@@ -46,11 +48,15 @@
 
 #include "tcp_client.h"
 
+#include "http_iap.h"
+
 static void vTaskLED (void *pvParameters);
 static void vTaskLwip(void *pvParameters);
 
  TaskHandle_t xHandleTaskLED  = NULL;
  TaskHandle_t xHandleTaskLwip = NULL;
+ 
+extern TaskHandle_t happ_iap_task_handle;
 
 /*
 *********************************************************************************************************
@@ -84,8 +90,9 @@ int main(void)
 			elog_start();
 	}
 	
-	xTaskCreate( vTaskLED, "vTaskLED", 512, NULL, 3, &xHandleTaskLED );
-	xTaskCreate( vTaskLwip,"Lwip"     ,512, NULL, 2, &xHandleTaskLwip );
+	xTaskCreate( vTaskLED,     "vTaskLED" ,512, NULL, 3, &xHandleTaskLED );
+	xTaskCreate( vTaskLwip,    "Lwip"     ,512, NULL, 2, &xHandleTaskLwip );
+	xTaskCreate( http_iap_task,"http_iap" ,512, NULL, 1, &happ_iap_task_handle );
 	
 	/* 启动调度，开始执行任务 */
 	vTaskStartScheduler();
@@ -99,10 +106,25 @@ static void netif_config(void)
   ip_addr_t ipaddr;
   ip_addr_t netmask;
   ip_addr_t gw;
+	
+	ip_addr_t dns_server_ip;
 
-  IP_ADDR4(&ipaddr,192,168,0,11);
-  IP_ADDR4(&netmask,255,255,255,0);
-  IP_ADDR4(&gw,192,168,0,1);
+  IP_ADDR4(&ipaddr,10,1,51,28);
+  IP_ADDR4(&netmask,255,255,0,0);
+  IP_ADDR4(&gw,10,1,1,1);
+	
+	/* Initialize DNS servers static ip. */
+  IP4_ADDR(&dns_server_ip,202,96,209,13);
+  dns_setserver(0, &dns_server_ip);
+	
+  IP4_ADDR(&dns_server_ip,114,114,114,114);
+  dns_setserver(1, &dns_server_ip);
+	
+	/**
+	 * Initialize the resolver: set up the UDP pcb and configure the default server
+	 * (if DNS_SERVER_ADDRESS is set).
+	 */
+	dns_init();
 
   /* add the network interface */ 
   netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
@@ -135,6 +157,9 @@ static void vTaskLwip(void *pvParameters)
 
 	for(;;)
 	{
+		
+		/* HTTP 开始下载文件 */
+    xTaskNotifyGive( happ_iap_task_handle );
 		
 		tcp_client_conn_server_task();
 		
