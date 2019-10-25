@@ -1,6 +1,6 @@
 # stm32h7_freertos
 
-开发板：Nucleo-H743ZI ,（8M晶振）
+开发板：armfly H7-TOOL ,（25M晶振）
 
 1、移植 FreeRTOS V10.2，测试OK.
 
