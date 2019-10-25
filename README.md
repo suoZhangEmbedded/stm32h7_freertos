@@ -4,7 +4,7 @@
 
 1、移植 FreeRTOS V10.2，测试OK.
 
-2、重定向 printf 到 串口3， ST-LINK 虚拟串口 可以直接打印数据,测试OK。
+2、重定向 printf 到 jlink rtt 
 
 3、Nucleo-H743ZI 刷 ST-LINK 到 jlink 后， 不仅支持 虚拟串口，还能使用 jlink 下的 各种工具包，H7-TOOL 没有板载 st-link。
 	
