@@ -504,10 +504,9 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
         RMII_MII_CRS_DV -------------------> PA7
         RMII_MII_RXD0 ---------------------> PC4
         RMII_MII_RXD1 ---------------------> PC5
-        RMII_MII_RXER ---------------------> PG2
         RMII_MII_TX_EN --------------------> PG11
         RMII_MII_TXD0 ---------------------> PG13
-        RMII_MII_TXD1 ---------------------> PB13
+        RMII_MII_TXD1 ---------------------> PG14   h7-tool suozhang 2019年10月25日14:22:49
   */
 
   /* Configure PA1, PA2 and PA7 */
@@ -517,17 +516,13 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
   GPIO_InitStructure.Alternate = GPIO_AF11_ETH;
   GPIO_InitStructure.Pin = GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_7;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
-  
-  /* Configure PB13 */
-  GPIO_InitStructure.Pin = GPIO_PIN_13;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
-  
+
   /* Configure PC1, PC4 and PC5 */
   GPIO_InitStructure.Pin = GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
 
-  /* Configure PG2, PG11, PG13 and PG14 */
-  GPIO_InitStructure.Pin =  GPIO_PIN_2 | GPIO_PIN_11 | GPIO_PIN_13;
+  /* Configure PG11, PG13 and PG14 */
+  GPIO_InitStructure.Pin = GPIO_PIN_11 | GPIO_PIN_13 | GPIO_PIN_14;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStructure);	
   
   /* Enable the Ethernet global Interrupt */

@@ -26,8 +26,8 @@
 	led red PB14
 
 */	
-#define GPIO_PORT_LED1  GPIOB
-#define GPIO_PIN_LED1		GPIO_PIN_14
+#define GPIO_PORT_LED1  GPIOI
+#define GPIO_PIN_LED1		GPIO_PIN_8
 	
 static void led_config_gpio(void)
 {
@@ -35,7 +35,7 @@ static void led_config_gpio(void)
 	GPIO_InitTypeDef gpio_init_structure;
 
 	/* 使能 GPIO时钟 */
-	__HAL_RCC_GPIOB_CLK_ENABLE();
+	__HAL_RCC_GPIOI_CLK_ENABLE();
 
 	/* 设置 GPIOB 相关的IO为复用推挽输出 */
 	gpio_init_structure.Mode = GPIO_MODE_OUTPUT_PP;
