@@ -1,3 +1,6 @@
 /Project/MDK-ARM(uV5)/Objects
 /Project/MDK-ARM(uV5)/Listings
 /Project/MDK-ARM(uV5)/DebugConfig
+*uvgui*
+JLinkLog.txt
+*.bin
