@@ -11,7 +11,7 @@
 *		V1.0    2018-12-12   Eric2013     1. CMSIS软包版本 V5.4.0
 *                                     2. HAL库版本 V1.3.0
 *
-*   V1.1    2019-04-01   suozhang     1. add FreeRTOS V10.20
+*   V1.1    2020-04-013   suozhang     1. add RTX 
 *
 *	Copyright (C), 2018-2030, 安富莱电子 www.armfly.com
 *

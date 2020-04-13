@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER, STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32H7xx\Include;..\..\Libraries\STM32H7xx_HAL_Driver\Inc;..\..\User\bsp\inc;..\..\User;..\..\User\bsp;..\..\User\FreeRTOS\include;..\..\User\FreeRTOS\portable\RVDS\ARM_CM7\r0p1;..\..\User\lwip\src\include;..\..\User\lwip\src\port;..\..\User\segger_rtt;..\..\User\easylogger\inc;..\..\User</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32H7xx\Include;..\..\Libraries\STM32H7xx_HAL_Driver\Inc;..\..\User\bsp\inc;..\..\User;..\..\User\bsp;..\..\User\segger_rtt</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -617,6 +617,76 @@
               <FileName>SEGGER_RTT_Conf.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\User\segger_rtt\SEGGER_RTT_Conf.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RTX</GroupName>
+          <Files>
+            <File>
+              <FileName>rt_Event.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_Event.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_List.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_List.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Mailbox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_Mailbox.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_MemBox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_MemBox.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Mutex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_Mutex.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Robin.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_Robin.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Semaphore.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_Semaphore.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_System.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_System.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_Task.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_Time.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\rt_Timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>RTX_Config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\RTX_Config.c</FilePath>
+            </File>
+            <File>
+              <FileName>RTX_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\daplink\rtos\RTX_lib.c</FilePath>
             </File>
           </Files>
         </Group>
