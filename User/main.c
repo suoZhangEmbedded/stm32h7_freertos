@@ -11,13 +11,18 @@
 *		V1.0    2018-12-12   Eric2013     1. CMSIS软包版本 V5.4.0
 *                                     2. HAL库版本 V1.3.0
 *
-*   V1.1    2020-04-013   suozhang     1. add RTX 
+*   V1.1    2020-04-14   suozhang     1. add RTX 
 *
 *	Copyright (C), 2018-2030, 安富莱电子 www.armfly.com
 *
 *********************************************************************************************************
 */	
 #include "bsp.h"			/* 底层硬件驱动 */
+
+#include "RTL.h"
+
+static uint64_t app_task_led_stk[1024/8];
+__task void app_task_led( void );
 
 /*
 *********************************************************************************************************
@@ -32,6 +37,24 @@ int main(void)
 
 	bsp_Init();		/* 硬件初始化 */
 
+	os_sys_init_user( app_task_led, 2, &app_task_led_stk, sizeof(app_task_led_stk) );
+	
+	while(1);
+	
 }
+
+__task void app_task_led( void )
+{
+
+    while(1)
+    {
+			bsp_LedToggle(1);
+
+			printf( "app_task_led tick: %d.\r\n", os_time_get() );
+			
+			os_dly_wait( 1000 );		
+    }
+}
+
 
 /***************************** 安富莱电子 www.armfly.com (END OF FILE) *********************************/

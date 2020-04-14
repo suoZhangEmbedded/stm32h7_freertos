@@ -25,7 +25,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "IO_Config.h"
+// suozhang  2020Äê4ÔÂ14ÈÕ13:47:07
+//#include "IO_Config.h"
 
 #ifdef __cplusplus
 extern "C" {

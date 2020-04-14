@@ -312,7 +312,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>3</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -335,10 +335,10 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>--diag_suppress 3731</MiscControls>
               <Define>USE_HAL_DRIVER, STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32H7xx\Include;..\..\Libraries\STM32H7xx_HAL_Driver\Inc;..\..\User\bsp\inc;..\..\User;..\..\User\bsp;..\..\User\segger_rtt</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32H7xx\Include;..\..\Libraries\STM32H7xx_HAL_Driver\Inc;..\..\User\bsp\inc;..\..\User;..\..\User\bsp;..\..\User\segger_rtt;..\..\User\RL-RTX\SRC;..\..\User\RL-RTX;..\..\User\RL-RTX\INC;..\..\User\RL-RTX\SRC\ARM</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -498,14 +498,9 @@
               <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_uart_ex.c</FilePath>
             </File>
             <File>
-              <FileName>stm32h7xx_hal_sram.c</FileName>
+              <FileName>stm32h7xx_hal_sdram.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_sram.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32h7xx_hal_mdma.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_mdma.c</FilePath>
+              <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_sdram.c</FilePath>
             </File>
             <File>
               <FileName>stm32h7xx_hal_dma.c</FileName>
@@ -528,14 +523,14 @@
               <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_tim_ex.c</FilePath>
             </File>
             <File>
-              <FileName>stm32h7xx_hal_eth.c</FileName>
+              <FileName>stm32h7xx_hal_mdma.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_eth.c</FilePath>
+              <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_mdma.c</FilePath>
             </File>
             <File>
-              <FileName>stm32h7xx_hal_eth_ex.c</FileName>
+              <FileName>stm32h7xx_hal_sram.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_eth_ex.c</FilePath>
+              <FilePath>..\..\Libraries\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_sram.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -621,72 +616,92 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>RTX</GroupName>
+          <GroupName>RTX/source</GroupName>
           <Files>
+            <File>
+              <FileName>HAL_CM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\RL-RTX\SRC\HAL_CM.c</FilePath>
+            </File>
             <File>
               <FileName>rt_Event.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_Event.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Event.c</FilePath>
             </File>
             <File>
               <FileName>rt_List.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_List.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_List.c</FilePath>
             </File>
             <File>
               <FileName>rt_Mailbox.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_Mailbox.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Mailbox.c</FilePath>
             </File>
             <File>
               <FileName>rt_MemBox.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_MemBox.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_MemBox.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Memory.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Memory.c</FilePath>
             </File>
             <File>
               <FileName>rt_Mutex.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_Mutex.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Mutex.c</FilePath>
             </File>
             <File>
               <FileName>rt_Robin.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_Robin.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Robin.c</FilePath>
             </File>
             <File>
               <FileName>rt_Semaphore.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_Semaphore.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Semaphore.c</FilePath>
             </File>
             <File>
               <FileName>rt_System.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_System.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_System.c</FilePath>
             </File>
             <File>
               <FileName>rt_Task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_Task.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Task.c</FilePath>
             </File>
             <File>
               <FileName>rt_Time.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_Time.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Time.c</FilePath>
             </File>
             <File>
               <FileName>rt_Timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\rt_Timer.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\rt_Timer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RTX/port</GroupName>
+          <Files>
+            <File>
+              <FileName>RTX_Conf_CM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\RL-RTX\RTX_Conf_CM.c</FilePath>
             </File>
             <File>
-              <FileName>RTX_Config.c</FileName>
+              <FileName>HAL_CM4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\RTX_Config.c</FilePath>
+              <FilePath>..\..\User\RL-RTX\SRC\ARM\HAL_CM4.c</FilePath>
             </File>
             <File>
-              <FileName>RTX_lib.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\daplink\rtos\RTX_lib.c</FilePath>
+              <FileName>SVC_Table.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\User\RL-RTX\SRC\ARM\SVC_Table.s</FilePath>
             </File>
           </Files>
         </Group>
